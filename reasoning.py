@@ -140,7 +140,7 @@ def sync_reasoner_hermit(x = None, infer_property_values = False, debug = 1, kee
       else:
         raise OwlReadyJavaError("Java error message is:\n%s" % (e.stderr or e.output or b"").decode("utf8"))
       
-    output = output.decode("utf8").replace("\r","")
+    output = output.decode("gbk").replace("\r","")
     if debug:
       print("* Owlready2 * HermiT took %s seconds" % (time.time() - t0), file = sys.stderr)
       if debug > 1:
