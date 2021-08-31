@@ -393,8 +393,8 @@ def _create_rule_parser():
   lg.add("STR", r"'.*?'")
   lg.add("BOOL", r"true")
   lg.add("BOOL", r"false")
-  lg.add("VAR", r"\?[a-zA-Z0-9_]+")
-  lg.add("NAME", r'[a-zA-Z][a-zA-Z0-9_:/.#]*')
+  lg.add("VAR", r"\?[a-zA-Z0-9_\u4e00-\u9fa5]+")
+  lg.add("NAME", r'[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5:/.#]*')
   
   lg.ignore(r"\s+")
   
