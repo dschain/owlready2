@@ -11,7 +11,7 @@ lg.add("NAME", r'[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5_:/.#]*')
 
 # 2. 静态定义本体结构Class 与 Relation
 
-``` 
+```python
 #-*- coding: utf-8 -*-
 from owlready2 import *
 import types
