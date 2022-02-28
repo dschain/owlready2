@@ -11,7 +11,7 @@ lg.add("NAME", r'[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5_:/.#]*')
 
 # 2. 静态定义本体结构Class 与 Relation
 
-```python
+```
 #-*- coding: utf-8 -*-
 from owlready2 import *
 import types
@@ -61,4 +61,26 @@ with onto:
         domain    = [教练]
         range      = [教练] 
     onto.save()
-     ```
+```
+# 3. 动态创建Class与SWRL规则
+```
+# -*- coding: utf-8 -*-
+from owlready2 import *
+import types
+PATH = "."#本地路径
+IRI  = "https://x.owl"#iri
+onto_path.append(PATH)
+onto = get_ontology(IRI).load()
+
+with onto:
+        types.new_class('橄榄球队', (onto.球队,))
+        '''
+        #可添加等于
+        eq='[onto.球队 & ... ]]'
+        glqd.equivalent_to=eval(eq)
+        '''        
+        swrl='球队(?x),教练(?a),执教(?a,?x),球队(?y),教练(?b),执教(?b,?y),战力强于(?x,?y) -> 水平高于(?a,?yb)'
+        rule =  Imp()
+        rule.set_as_rule(swrl)        
+        onto.save()
+```
