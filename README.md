@@ -1,14 +1,15 @@
 # 1. owlready2支持中文：
-CLASS支持中文
-reasoning.py line:148 ==>output = output.decode("gbk").replace("\r","")
-
-SWRL规则支持中文
+* CLASS支持中文
+reasoning.py line:148 ==>
+```
+output = output.decode("gbk").replace("\r","")
+```
+* SWRL规则支持中文
 rule.py
-
+```
 lg.add("VAR", r"\?[a-zA-Z0-9_\u4e00-\u9fa5]+")
-
 lg.add("NAME", r'[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5_:/.#]*')
-
+```
 # 2. 静态定义本体结构Class 与 Relation
 
 ```
