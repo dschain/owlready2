@@ -1,3 +1,6 @@
+# 0. 版本：
+pip install Owlready2==0.37
+
 # 1. owlready2支持中文：
 * CLASS支持中文
 reasoning.py 修改
