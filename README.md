@@ -1,14 +1,42 @@
 # 1. owlready2支持中文：
 * CLASS支持中文
-reasoning.py line:143 ==>
+reasoning.py 修改
+
 ```
-output = output.decode("gbk").replace("\r","")
+def _decode(s):
+  if not s: return ""
+  try:
+    return s.decode("gbk")
+  except UnicodeDecodeError:
+    return s.decode("latin")
 ```
 * SWRL规则支持中文
-rule.py  line:396 ==>
+rule.py 修改
+
 ```
-lg.add("VAR", r"\?[a-zA-Z0-9_\u4e00-\u9fa5]+")
-lg.add("NAME", r'[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5_:/.#]*')
+def _create_rule_parser():
+  global _RULE_PARSER
+  import owlready2.rply as rply
+  
+  lg = rply.LexerGenerator()
+  lg.add("(", r"\(")
+  lg.add(")", r"\)")
+  lg.add(",", r",")
+  lg.add(",", r"\^")
+  lg.add("IMP", r"->")
+  lg.add("FLOAT", r"-[0-9]*\.[0-9]+")
+  lg.add("FLOAT", r"[0-9]*\.[0-9]+")
+  lg.add("INT", r"-[0-9]+")
+  lg.add("INT", r"[0-9]+")
+  lg.add("STR", r'".*?"')
+  lg.add("STR", r"'.*?'")
+  lg.add("BOOL", r"true")
+  lg.add("BOOL", r"false")
+  lg.add("VAR", r"\?[a-zA-Z0-9_\u4e00-\u9fa5]+")
+  lg.add("NAME", r'[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5_:/.#]*')
+  
+  lg.ignore(r"\s+")
+
 ```
 # 2. 静态定义本体结构Class 与 Relation
 
@@ -85,3 +113,21 @@ with onto:
         rule.set_as_rule(swrl)        
         onto.save()
 ```
+# 4. 特殊符号owlready2不支持
+个别特殊符号定义成类名、实例名会报错，需要去除特殊符号，如： ‘-’‘/’等
+```
+from zhon.hanzi import punctuation
+def conv(source):
+    if source == None:
+        return None
+    source = source.replace(' ','')
+    source = source.replace('Ⅲ','3')
+    source = source.replace('Ⅱ','2')
+    source = source.replace('Ⅰ','1')
+    
+    _pun = punctuation + '\-\&\,\.\?\/\%\+'
+    target = re.sub('[{}]+'.format(_pun), "", source)
+    return target
+```
+
+
